@@ -1,0 +1,86 @@
+/* styles.css */
+
+/* Base body styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+/* Main container */
+.container {
+  padding: 20px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+/* Headings */
+h1, h2 {
+  text-align: center;
+}
+
+/* Common UI groups */
+.toolbar, .filter-box, .btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+/* Form elements */
+input, select, button {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Buttons */
+button {
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Employee card styling */
+.card {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  margin: 10px;
+  width: 250px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+/* Add/Edit form container */
+.form-container {
+  max-width: 400px;
+  margin: auto;
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
+
+/* Label alignment */
+label {
+  display: block;
+  margin-top: 15px;
+}
+
+/* Footer style */
+footer {
+  text-align: center;
+  padding: 20px;
+  margin-top: 30px;
+  font-size: 0.9em;
+  background-color: #ddd;
+  border-top: 1px solid #ccc;
+}
