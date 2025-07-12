@@ -1,17 +1,16 @@
-// script.js
-
-// Initial dummy employee data
 let employees = [
   { id: 1, firstName: "Alice", lastName: "Smith", email: "alice@example.com", department: "HR", role: "Manager" },
   { id: 2, firstName: "Bob", lastName: "Johnson", email: "bob@example.com", department: "IT", role: "Developer" },
   { id: 3, firstName: "Charlie", lastName: "Lee", email: "charlie@example.com", department: "Finance", role: "Analyst" }
 ];
 
-// Render employees as cards
+let currentPage = 1;
+let pageSize = 10;
+
 function renderEmployees(data) {
   const container = document.getElementById("employeeContainer");
   if (!container) return;
-  // Map each employee to a card
+
   container.innerHTML = data.map(emp => `
     <div class="card">
       <p><strong>${emp.firstName} ${emp.lastName}</strong></p>
@@ -24,7 +23,52 @@ function renderEmployees(data) {
   `).join("");
 }
 
-// Filter logic based on form input
+function renderEmployeesWithPagination(data) {
+  const start = (currentPage - 1) * pageSize;
+  const paginatedData = data.slice(start, start + pageSize);
+  renderEmployees(paginatedData);
+  renderPaginationControls(data.length);
+}
+
+function renderPaginationControls(totalItems) {
+  const totalPages = Math.ceil(totalItems / pageSize);
+  const paginationDiv = document.getElementById("pagination");
+  paginationDiv.innerHTML = '';
+
+  for (let i = 1; i <= totalPages; i++) {
+    paginationDiv.innerHTML += `<button onclick="goToPage(${i})" ${i === currentPage ? 'class="active"' : ''}>${i}</button>`;
+  }
+}
+
+function goToPage(page) {
+  currentPage = page;
+  renderEmployeesWithPagination(employees);
+}
+
+function changePageSize() {
+  pageSize = parseInt(document.getElementById("pageSize").value);
+  currentPage = 1;
+  renderEmployeesWithPagination(employees);
+}
+
+function searchEmployees() {
+  const query = document.getElementById("searchBox").value.toLowerCase();
+  const result = employees.filter(emp =>
+    emp.firstName.toLowerCase().includes(query) ||
+    emp.lastName.toLowerCase().includes(query) ||
+    emp.email.toLowerCase().includes(query)
+  );
+  renderEmployeesWithPagination(result);
+}
+
+function sortEmployees() {
+  const sortKey = document.getElementById("sortOption").value;
+  const sorted = [...employees].sort((a, b) =>
+    a[sortKey].localeCompare(b[sortKey])
+  );
+  renderEmployeesWithPagination(sorted);
+}
+
 function applyFilters() {
   const first = document.getElementById("filterFirstName").value.toLowerCase();
   const dept = document.getElementById("filterDepartment").value.toLowerCase();
@@ -35,32 +79,28 @@ function applyFilters() {
     (!dept || e.department.toLowerCase().includes(dept)) &&
     (!role || e.role.toLowerCase().includes(role))
   );
-  renderEmployees(filtered);
+  renderEmployeesWithPagination(filtered);
 }
 
-// Reset all filters
 function resetFilters() {
   document.getElementById("filterFirstName").value = "";
   document.getElementById("filterDepartment").value = "";
   document.getElementById("filterRole").value = "";
-  renderEmployees(employees);
+  renderEmployeesWithPagination(employees);
 }
 
-// Validate email format using regex
 function validateEmail(email) {
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return regex.test(email);
 }
 
-// Delete employee by ID
 function deleteEmployee(id) {
   if (confirm("Are you sure you want to delete this employee?")) {
     employees = employees.filter(emp => emp.id !== id);
-    renderEmployees(employees);
+    renderEmployeesWithPagination(employees);
   }
 }
 
-// Edit employee: save data in localStorage and navigate to form
 function editEmployee(id) {
   const emp = employees.find(e => e.id === id);
   if (!emp) return;
@@ -68,11 +108,7 @@ function editEmployee(id) {
   window.location.href = "/form";
 }
 
-// Handle form submission: add new or update existing employee
 function handleFormSubmit() {
-  const form = document.getElementById("employeeForm");
-  if (!form) return;
-
   const firstName = document.getElementById("firstName").value.trim();
   const lastName = document.getElementById("lastName").value.trim();
   const email = document.getElementById("email").value.trim();
@@ -80,16 +116,13 @@ function handleFormSubmit() {
   const role = document.getElementById("role").value;
   const id = document.getElementById("employeeId").value;
 
-  // Basic validation
   if (!firstName || !email || !validateEmail(email)) {
-    alert("Please fill in all fields with valid info.");
+    alert("Please fill in all fields correctly.");
     return;
   }
 
-  // Construct employee object
   const newEmp = { id: id ? parseInt(id) : Date.now(), firstName, lastName, email, department, role };
 
-  // Update if existing, else add
   if (id) {
     employees = employees.map(e => e.id === parseInt(id) ? newEmp : e);
   } else {
@@ -100,7 +133,6 @@ function handleFormSubmit() {
   window.location.href = "/";
 }
 
-// On page load: initialize form if editing and render list
 window.onload = function () {
   const empData = localStorage.getItem("editEmp");
   if (empData && document.getElementById("employeeForm")) {
@@ -113,7 +145,6 @@ window.onload = function () {
     document.getElementById("role").value = emp.role;
   }
 
-  // Attach submit handler
   if (document.getElementById("employeeForm")) {
     document.getElementById("employeeForm").addEventListener("submit", function (e) {
       e.preventDefault();
@@ -121,6 +152,5 @@ window.onload = function () {
     });
   }
 
-  // Render all employees on initial load
-  renderEmployees(employees);
+  renderEmployeesWithPagination(employees);
 };

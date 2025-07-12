@@ -1,86 +1,169 @@
-/* styles.css */
-
-/* Base body styles */
 body {
-  font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f4f4f4;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
 }
 
 /* Main container */
 .container {
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 20px;
-  max-width: 1000px;
-  margin: auto;
 }
 
-/* Headings */
-h1, h2 {
+/* Title */
+h1 {
   text-align: center;
+  color: #222;
 }
 
-/* Common UI groups */
-.toolbar, .filter-box, .btn-group {
+/* Employee cards layout */
+#employeeContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/* Employee card */
+.card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 15px;
+  width: 250px;
+  transition: transform 0.2s ease;
+}
+.card:hover {
+  transform: scale(1.02);
+}
+.card p {
+  margin: 5px 0;
+}
+.card button {
+  margin-right: 10px;
+  margin-top: 10px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.card button:first-of-type {
+  background-color: #007bff;
+  color: white;
+}
+.card button:last-of-type {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* Filter and buttons */
+.filter-box {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  justify-content: center;
   margin: 20px 0;
 }
-
-/* Form elements */
-input, select, button {
-  padding: 10px;
+.filter-box input {
+  padding: 8px;
+  border-radius: 4px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  flex: 1 1 200px;
 }
-
-/* Buttons */
-button {
-  background-color: #007bff;
+.filter-box button {
+  background-color: #28a745;
   color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 4px;
   cursor: pointer;
 }
-
-button:hover {
-  background-color: #0056b3;
+.btn-group {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.btn-group button {
+  background-color: #343a40;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.btn-group button:hover {
+  background-color: #495057;
 }
 
-/* Employee card styling */
-.card {
-  background: white;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  margin: 10px;
-  width: 250px;
-  display: inline-block;
-  vertical-align: top;
-}
-
-/* Add/Edit form container */
+/* Add/Edit Form */
 .form-container {
-  max-width: 400px;
-  margin: auto;
-  background: white;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  max-width: 500px;
+  margin: 50px auto;
+  background-color: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
 }
-
-/* Label alignment */
-label {
-  display: block;
-  margin-top: 15px;
-}
-
-/* Footer style */
-footer {
+.form-container h2 {
   text-align: center;
-  padding: 20px;
-  margin-top: 30px;
-  font-size: 0.9em;
-  background-color: #ddd;
+  margin-bottom: 20px;
+}
+.form-container label {
+  display: block;
+  margin: 12px 0 6px;
+}
+.form-container input,
+.form-container select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+.form-container .btn-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+.form-container button {
+  width: 48%;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.form-container button[type="submit"] {
+  background-color: #007bff;
+  color: white;
+}
+.form-container button[type="button"] {
+  background-color: #6c757d;
+  color: white;
+}
+
+/* Footer */
+footer {
+  margin-top: 40px;
+  text-align: center;
+  font-size: 14px;
+  color: #666;
   border-top: 1px solid #ccc;
+  padding: 10px 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  #employeeContainer {
+    justify-content: center;
+  }
+  .card {
+    width: 100%;
+    max-width: 90%;
+  }
+  .btn-group, .filter-box {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }

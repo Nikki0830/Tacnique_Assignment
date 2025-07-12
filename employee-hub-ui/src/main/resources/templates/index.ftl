@@ -10,39 +10,39 @@
   <div class="container">
     <h1>Employee Directory</h1>
 
-    <!-- Toolbar -->
-    <div class="btn-group">
+    <!-- Top Toolbar -->
+    <div class="toolbar">
+      <input type="text" id="searchBox" placeholder="Search by name or email" onkeyup="searchEmployees()" />
+      <select id="sortOption" onchange="sortEmployees()">
+        <option value="">-- Sort By --</option>
+        <option value="firstName">First Name</option>
+        <option value="department">Department</option>
+      </select>
+
+      <select id="pageSize" onchange="changePageSize()">
+        <option value="10">Show: 10</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+
       <button onclick="window.location.href='/form'">Add Employee</button>
-      <button onclick="resetFilters()">Reset Filters</button>
     </div>
 
-    <!-- Filters -->
+    <!-- Filter Sidebar -->
     <div class="filter-box">
-      <input type="text" id="filterFirstName" placeholder="Filter by First Name" />
-      <input type="text" id="filterDepartment" placeholder="Filter by Department" />
-      <input type="text" id="filterRole" placeholder="Filter by Role" />
-      <button onclick="applyFilters()">Apply Filters</button>
+      <input type="text" id="filterFirstName" placeholder="First Name" />
+      <input type="text" id="filterDepartment" placeholder="Department" />
+      <input type="text" id="filterRole" placeholder="Role" />
+      <button onclick="applyFilters()">Apply</button>
+      <button onclick="resetFilters()">Reset</button>
     </div>
 
-    <!-- Freemarker rendered initial list -->
-    <div id="employeeContainer">
-      <#assign employees = [
-        {"id": 1, "firstName": "Alice", "lastName": "Smith", "email": "alice@example.com", "department": "HR", "role": "Manager"},
-        {"id": 2, "firstName": "Bob", "lastName": "Johnson", "email": "bob@example.com", "department": "IT", "role": "Developer"},
-        {"id": 3, "firstName": "Charlie", "lastName": "Brown", "email": "charlie@example.com", "department": "Finance", "role": "Analyst"}
-      ]>
+    <!-- Employee Cards -->
+    <div id="employeeContainer" class="employee-grid"></div>
 
-      <#list employees as emp>
-        <div class="card">
-          <p><strong>${emp.firstName} ${emp.lastName}</strong></p>
-          <p>Email: ${emp.email}</p>
-          <p>Department: ${emp.department}</p>
-          <p>Role: ${emp.role}</p>
-          <button onclick="editEmployee(${emp.id})">Edit</button>
-          <button onclick="deleteEmployee(${emp.id})">Delete</button>
-        </div>
-      </#list>
-    </div>
+    <!-- Pagination -->
+    <div id="pagination" class="pagination-controls"></div>
   </div>
 
   <footer>
