@@ -1,8 +1,13 @@
-let employees = [
+
+let employees = JSON.parse(localStorage.getItem("employees")) || [
   { id: 1, firstName: "Alice", lastName: "Smith", email: "alice@example.com", department: "HR", role: "Manager" },
   { id: 2, firstName: "Bob", lastName: "Johnson", email: "bob@example.com", department: "IT", role: "Developer" },
   { id: 3, firstName: "Charlie", lastName: "Lee", email: "charlie@example.com", department: "Finance", role: "Analyst" }
 ];
+
+function saveEmployees() {
+  localStorage.setItem("employees", JSON.stringify(employees));
+}
 
 let currentPage = 1;
 let pageSize = 10;
@@ -33,6 +38,7 @@ function renderEmployeesWithPagination(data) {
 function renderPaginationControls(totalItems) {
   const totalPages = Math.ceil(totalItems / pageSize);
   const paginationDiv = document.getElementById("pagination");
+  if (!paginationDiv) return;
   paginationDiv.innerHTML = '';
 
   for (let i = 1; i <= totalPages; i++) {
@@ -64,7 +70,7 @@ function searchEmployees() {
 function sortEmployees() {
   const sortKey = document.getElementById("sortOption").value;
   const sorted = [...employees].sort((a, b) =>
-    a[sortKey].localeCompare(b[sortKey])
+    a[sortKey]?.localeCompare(b[sortKey])
   );
   renderEmployeesWithPagination(sorted);
 }
@@ -97,6 +103,7 @@ function validateEmail(email) {
 function deleteEmployee(id) {
   if (confirm("Are you sure you want to delete this employee?")) {
     employees = employees.filter(emp => emp.id !== id);
+    saveEmployees();
     renderEmployeesWithPagination(employees);
   }
 }
@@ -112,11 +119,11 @@ function handleFormSubmit() {
   const firstName = document.getElementById("firstName").value.trim();
   const lastName = document.getElementById("lastName").value.trim();
   const email = document.getElementById("email").value.trim();
-  const department = document.getElementById("department").value;
-  const role = document.getElementById("role").value;
+  const department = document.getElementById("department").value.trim();
+  const role = document.getElementById("role").value.trim();
   const id = document.getElementById("employeeId").value;
 
-  if (!firstName || !email || !validateEmail(email)) {
+  if (!firstName || !lastName || !email || !department || !role || !validateEmail(email)) {
     alert("Please fill in all fields correctly.");
     return;
   }
@@ -129,6 +136,7 @@ function handleFormSubmit() {
     employees.push(newEmp);
   }
 
+  saveEmployees();
   localStorage.removeItem("editEmp");
   window.location.href = "/";
 }
@@ -152,5 +160,7 @@ window.onload = function () {
     });
   }
 
-  renderEmployeesWithPagination(employees);
+  if (document.getElementById("employeeContainer")) {
+    renderEmployeesWithPagination(employees);
+  }
 };
