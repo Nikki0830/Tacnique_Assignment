@@ -64,19 +64,26 @@ mvn clean install
 mvn spring-boot:run
 📍 Visit: http://localhost:8080
 
+🧠 Challenges Faced
+This was my first full-stack project using Spring Boot with Freemarker as the templating engine, and also my first deployment to Google Cloud Platform (GCP). Throughout the development and deployment process, I faced the following challenges:
 
+1. Freemarker Integration
+Understanding how Freemarker works with Spring Boot, especially using dynamic content rendering via <#list> and <#assign> tags, required a shift from traditional frontend templating. Managing loops, conditions, and integrating mock data effectively was initially time-consuming.
 
+2. Client-Side Validation
+Instead of using basic alert popups, I implemented inline form validations using JavaScript. Handling dynamic validation messages, especially for select dropdowns and real-time user feedback, required extra care to avoid false positives.
 
+3. Data Handling Without Backend
+Since no backend/database was allowed, managing employee data entirely in memory (via a JavaScript array and localStorage) made it challenging to ensure consistency across the dashboard and form pages — especially when editing, updating, or deleting entries.
 
+4. Deployment to Google Cloud Platform
+Deploying the Spring Boot application to GCP’s Compute Engine involved multiple steps:
 
+Configuring the virtual machine with the correct Java version (17)
 
+Adjusting firewall rules to allow traffic on port 8080
 
+Ensuring the .jar file ran continuously without interruption
 
-
-
-
-
-
-
-
+Verifying browser-level access to the deployed app
 
