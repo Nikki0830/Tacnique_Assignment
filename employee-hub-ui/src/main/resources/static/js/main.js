@@ -1,4 +1,3 @@
-
 let employees = JSON.parse(localStorage.getItem("employees")) || [
   { id: 1, firstName: "Alice", lastName: "Smith", email: "alice@example.com", department: "HR", role: "Manager" },
   { id: 2, firstName: "Bob", lastName: "Johnson", email: "bob@example.com", department: "IT", role: "Developer" },
@@ -100,6 +99,20 @@ function validateEmail(email) {
   return regex.test(email);
 }
 
+function showError(fieldId, message) {
+  const errorEl = document.getElementById(`error${capitalize(fieldId)}`);
+  if (errorEl) errorEl.textContent = message;
+}
+
+function clearError(fieldId) {
+  const errorEl = document.getElementById(`error${capitalize(fieldId)}`);
+  if (errorEl) errorEl.textContent = "";
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 function deleteEmployee(id) {
   if (confirm("Are you sure you want to delete this employee?")) {
     employees = employees.filter(emp => emp.id !== id);
@@ -123,12 +136,39 @@ function handleFormSubmit() {
   const role = document.getElementById("role").value.trim();
   const id = document.getElementById("employeeId").value;
 
-  if (!firstName || !lastName || !email || !department || !role || !validateEmail(email)) {
-    alert("Please fill in all fields correctly.");
-    return;
+  let hasError = false;
+
+  if (!firstName) {
+    showError("firstName", "First Name is required.");
+    hasError = true;
+  }
+  if (!lastName) {
+    showError("lastName", "Last Name is required.");
+    hasError = true;
+  }
+  if (!email || !validateEmail(email)) {
+    showError("email", "Enter a valid email.");
+    hasError = true;
+  }
+  if (!department) {
+    showError("department", "Select a department.");
+    hasError = true;
+  }
+  if (!role) {
+    showError("role", "Select a role.");
+    hasError = true;
   }
 
-  const newEmp = { id: id ? parseInt(id) : Date.now(), firstName, lastName, email, department, role };
+  if (hasError) return;
+
+  const newEmp = {
+    id: id ? parseInt(id) : Date.now(),
+    firstName,
+    lastName,
+    email,
+    department,
+    role
+  };
 
   if (id) {
     employees = employees.map(e => e.id === parseInt(id) ? newEmp : e);
@@ -158,6 +198,13 @@ window.onload = function () {
       e.preventDefault();
       handleFormSubmit();
     });
+
+    // Live error clearing
+    document.getElementById("firstName").addEventListener("input", () => clearError("firstName"));
+    document.getElementById("lastName").addEventListener("input", () => clearError("lastName"));
+    document.getElementById("email").addEventListener("input", () => clearError("email"));
+    document.getElementById("department").addEventListener("change", () => clearError("department"));
+    document.getElementById("role").addEventListener("change", () => clearError("role"));
   }
 
   if (document.getElementById("employeeContainer")) {

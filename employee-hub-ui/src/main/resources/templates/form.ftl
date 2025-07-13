@@ -13,13 +13,16 @@
       <input type="hidden" id="employeeId" />
 
       <label>First Name:</label>
-      <input type="text" id="firstName" required />
+      <input type="text" id="firstName" />
+      <div id="errorFirstName" class="error-msg"></div>
 
       <label>Last Name:</label>
       <input type="text" id="lastName" />
+      <div id="errorLastName" class="error-msg"></div>
 
       <label>Email:</label>
-      <input type="email" id="email" required />
+      <input type="email" id="email" />
+      <div id="errorEmail" class="error-msg"></div>
 
       <label>Department:</label>
       <select id="department">
@@ -28,6 +31,7 @@
         <option value="IT">IT</option>
         <option value="Finance">Finance</option>
       </select>
+      <div id="errorDepartment" class="error-msg"></div>
 
       <label>Role:</label>
       <select id="role">
@@ -36,6 +40,7 @@
         <option value="Developer">Developer</option>
         <option value="Analyst">Analyst</option>
       </select>
+      <div id="errorRole" class="error-msg"></div>
 
       <div class="btn-group">
         <button type="button" onclick="window.location.href='/'">Cancel</button>
