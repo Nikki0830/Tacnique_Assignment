@@ -8,7 +8,7 @@
 
 ## 🌐 Live Demo
 
-🔗 **[Visit Application]( http://localhost:8082)**  
+🔗 **[Visit Application](http://35.244.3.92:8082/)**  
 
 
 ---
